@@ -4,7 +4,7 @@
   "publisher": "ayuan",
   "icon": "images/icon.png",
   "description": "",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.82.0"
   },
@@ -98,6 +98,10 @@
         },
         {
           "command": "spaceCamelCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "spaceLowerCase",
           "group": "1_modification"
         },
         {

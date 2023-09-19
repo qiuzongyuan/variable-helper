@@ -1,1 +1,1 @@
-vscode插件-变量助手
+<img src="./images/demo.png" />
