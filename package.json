@@ -9,50 +9,96 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "vscode",
+    "plugin"
+  ],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "convert",
-        "title": "修改变量名1"
+        "command": "camelCase",
+        "title": "camelCase"
       },
       {
-        "command": "carry2",
-        "title": "修改变量名2"
+        "command": "snakeCase",
+        "title": "snake_case"
+      },
+      {
+        "command": "kebabCase",
+        "title": "kebab-case"
+      },
+      {
+        "command": "pascalCase",
+        "title": "PascalCase"
+      },
+      {
+        "command": "screamingSnakeCase",
+        "title": "SCREAMING_SNAKE_CASE"
+      },
+      {
+        "command": "capitalizedSnakeCase",
+        "title": "Capitalized_Snake_Case"
+      },
+      {
+        "command": "spaceLowerCase",
+        "title": "space lower case"
+      },
+      {
+        "command": "spaceUpperCase",
+        "title": "SPACE UPPER CASE"
       }
     ],
     "submenus": [
       {
-          "id": "carry",
-          "label": "转换变量名"
+        "id": "variableHelper",
+        "label": "Variable Helper"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "submenu": "carry",
-          "group": "navigation",
+          "submenu": "variableHelper",
+          "group": "1_modification",
           "when": "editorHasSelection"
         }
       ],
-      "carry": [
+      "variableHelper": [
         {
-            "command": "convert",
-            "group": "navigation"
+          "command": "camelCase",
+          "group": "1_modification"
         },
         {
-            "command": "carry2",
-            "group": "navigation"
-        }]
-    },
-    "keybindings": [
-      {
-        "command": "convert",
-        "key": "ctrl+t",
-        "mac": "cmd+t"
-      }
-    ]
+          "command": "snakeCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "kebabCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "pascalCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "screamingSnakeCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "capitalizedSnakeCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "spaceCamelCase",
+          "group": "1_modification"
+        },
+        {
+          "command": "capitalizedSnakeCase",
+          "group": "1_modification"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
