@@ -26,14 +26,4 @@ export function activate(context: vscode.ExtensionContext) {
     );
     context.subscriptions.push(disposable);
   });
-  // 注册右键菜单命令
-  // const disposable = vscode.commands.registerCommand('convert', () => {
-  // 	// 在此处编写右键菜单命令的逻辑
-  // 	// const words = extractWords();
-  // 	// replaceText(words.join('_'));
-  // 	// vscode.window.showInformationMessage();
-  // });
 }
-
-// This method is called when your extension is deactivated
-export function deactivate() {}
