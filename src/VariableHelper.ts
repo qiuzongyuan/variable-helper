@@ -25,7 +25,6 @@ export default class VariableHelper {
     }
     convertText = convertText.toLocaleLowerCase();
     this.words = convertText.split(separator).filter((word) => word !== "");
-    console.log(this.words);
   }
 
   replaceText(text?: unknown) {
