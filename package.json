@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "carry1",
+        "command": "convert",
         "title": "修改变量名1"
       },
       {
@@ -38,7 +38,7 @@
       ],
       "carry": [
         {
-            "command": "carry1",
+            "command": "convert",
             "group": "navigation"
         },
         {
@@ -48,7 +48,7 @@
     },
     "keybindings": [
       {
-        "command": "carry1",
+        "command": "convert",
         "key": "ctrl+t",
         "mac": "cmd+t"
       }

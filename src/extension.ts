@@ -1,24 +1,29 @@
 import * as vscode from 'vscode';
+import VariableHelper from './VariableHelper';
+const commands = [
+	{
+		name: 'convert',
+		fnName: 'test'
+	}
+];
+const handler = (fnName: typeof VariableHelper[keyof typeof VariableHelper]) => {
+	const helper = new VariableHelper;
+	helper[fnName]?.();
+};
 
 export function activate(context: vscode.ExtensionContext) {
-	// 注册右键菜单命令
-const disposable = vscode.commands.registerCommand('myCommand', () => {
-	// 在此处编写右键菜单命令的逻辑
-	const editor = vscode.window.activeTextEditor;
-	if (!editor) {
-		return;
-	};
-	const { selection } = editor;
-	const text = editor.document.getText(selection);//选择文本
-	// if (text) {
-	// 	vscode.window.showInformationMessage(text);	
-	// }
-	editor.edit((builder) => {
-		builder.replace(selection, "测试");//替换选中文本
+	commands.forEach((command) => {
+		const disposable = vscode.commands.registerCommand("convert", () => handler('test'));
+		context.subscriptions.push(disposable);
 	});
-});
+	// 注册右键菜单命令
+// const disposable = vscode.commands.registerCommand('convert', () => {
+// 	// 在此处编写右键菜单命令的逻辑
+// 	// const words = extractWords();
+// 	// replaceText(words.join('_'));
+// 	// vscode.window.showInformationMessage();	
+// });
 
-	context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
