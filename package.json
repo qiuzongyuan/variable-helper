@@ -1,8 +1,9 @@
 {
   "name": "variable-helper",
-  "displayName": "variable-helper",
+  "displayName": "Variable Helper",
+  "publisher": "ayuan",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.82.0"
   },
