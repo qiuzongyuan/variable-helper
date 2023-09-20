@@ -14,7 +14,6 @@ const commands: VariableHelperKey[] = [
 
 const handler = (name: keyof VariableHelper) => {
   const helper = new VariableHelper();
-  helper.extractWords();
   const text = helper[name]?.();
   helper.replaceText(text);
 };
