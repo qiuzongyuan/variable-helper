@@ -39,6 +39,7 @@ export default class VariableHelper {
     });
   }
 
+  // camelCase
   camelCase() {
     const words = this.words.map((word, index) => {
       if (index > 0) {
@@ -49,40 +50,48 @@ export default class VariableHelper {
     return words.join("");
   }
 
+  // snake_case
   snakeCase() {
     return this.words.join("_");
   }
 
+  // kebab-case
   kebabCase() {
     return this.words.join("-");
   }
 
-  pascalCase() {
+  toPascalCase() {
     const words = this.words.map((word) =>
       word.replace(/^[a-z]/, (match) => match.toLocaleUpperCase())
     );
-    return words.join("");
+    return words;
+  }
+
+  // PascalCase
+  pascalCase() {
+    return this.toPascalCase().join("");
   }
 
   toUpperCase() {
-    return this.words.map((word) => word.toLocaleLowerCase());
+    return this.words.map((word) => word.toLocaleUpperCase());
   }
 
+  // SCREAMING_SNAKE_CASE
   screamingSnakeCase() {
     return this.toUpperCase().join("_");
   }
 
+  // Capitalized_Snake_Case
   capitalizedSnakeCase() {
-    const words = this.words.map((word) =>
-      word.replace(/^[a-z]/, (match) => match.toLocaleUpperCase())
-    );
-    return words.join("_");
+    return this.toPascalCase().join("_");
   }
 
+  // space lower case
   spaceLowerCase() {
     return this.words.join(" ");
   }
 
+  // SPACE UPPER CASE
   spaceUpperCase() {
     return this.toUpperCase().join(" ");
   }
