@@ -14,7 +14,7 @@ export default class VariableHelper {
     const { selection } = editor;
     const text = editor.document.getText(selection); //选择文本
     const separator = " ";
-    const charReg = /[A-Z][a-z]?/g;
+    const charReg = /[A-Z][a-z]+/g;
     let convertText = text;
     if (charReg.test(convertText)) {
       convertText = convertText.replace(charReg, (match) => separator + match);
@@ -28,7 +28,7 @@ export default class VariableHelper {
   }
 
   replaceText(text?: unknown) {
-    if (typeof text !== "string") return;
+    if (typeof text !== "string") {return;}
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
       return;
@@ -95,6 +95,7 @@ export default class VariableHelper {
   spaceUpperCase() {
     return this.toUpperCase().join(" ");
   }
+
 }
 
 export type VariableHelperKey = keyof VariableHelper;
