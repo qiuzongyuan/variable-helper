@@ -1,3 +1,3 @@
 ## Variable Helper
 
-![demo](https://github.com/qiuzongyuan/variable-helper/blob/main/images/demo.png)
+![demo](https://github.com/qiuzongyuan/variable-helper/blob/main/images/demo.gif)
