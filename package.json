@@ -49,12 +49,16 @@
         "title": "Capitalized_Snake_Case"
       },
       {
-        "command": "spaceLowerCase",
-        "title": "space lower case"
+        "command": "sentenceCase",
+        "title": "Sentence Case"
       },
       {
-        "command": "spaceUpperCase",
-        "title": "SPACE UPPER CASE"
+        "command": "lowerCase",
+        "title": "lower case"
+      },
+      {
+        "command": "UpperCase",
+        "title": "UPPER CASE"
       }
     ],
     "submenus": [
@@ -74,39 +78,39 @@
       "variableHelper": [
         {
           "command": "camelCase",
-          "group": "1_modification"
-        },
-        {
-          "command": "snakeCase",
-          "group": "1_modification"
-        },
-        {
-          "command": "kebabCase",
-          "group": "1_modification"
+          "group": "1_modification@1"
         },
         {
           "command": "pascalCase",
-          "group": "1_modification"
+          "group": "1_modification@2"
+        },
+        {
+          "command": "kebabCase",
+          "group": "1_modification@3"
+        },
+        {
+          "command": "snakeCase",
+          "group": "1_modification@4"
         },
         {
           "command": "screamingSnakeCase",
-          "group": "1_modification"
+          "group": "1_modification@5"
         },
         {
           "command": "capitalizedSnakeCase",
-          "group": "1_modification"
+          "group": "1_modification@6"
         },
         {
-          "command": "spaceCamelCase",
-          "group": "1_modification"
+          "command": "sentenceCase",
+          "group": "1_modification@7"
         },
         {
-          "command": "spaceLowerCase",
-          "group": "1_modification"
+          "command": "lowerCase",
+          "group": "1_modification@8"
         },
         {
-          "command": "spaceUpperCase",
-          "group": "1_modification"
+          "command": "upperCase",
+          "group": "1_modification@9"
         }
       ]
     }
@@ -121,15 +125,17 @@
     "publish": "vsce publish --no-yarn"
   },
   "devDependencies": {
-    "@types/vscode": "^1.82.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.82.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
     "eslint": "^8.47.0",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.6",
-    "@vscode/test-electron": "^2.3.4"
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
   }
 }

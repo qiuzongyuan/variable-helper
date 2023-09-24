@@ -8,8 +8,9 @@ const commands: VariableHelperKey[] = [
   "pascalCase",
   "screamingSnakeCase",
   "capitalizedSnakeCase",
-  "spaceLowerCase",
-  "spaceUpperCase",
+  "sentenceCase",
+  "lowerCase",
+  "upperCase",
 ];
 
 const handler = (name: keyof VariableHelper) => {
