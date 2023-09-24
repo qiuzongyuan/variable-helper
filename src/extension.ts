@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import VariableHelper, { VariableHelperKey } from "./VariableHelper";
+import { isString } from "./util";
 
 const commands: VariableHelperKey[] = [
   "camelCase",
@@ -14,9 +15,21 @@ const commands: VariableHelperKey[] = [
 ];
 
 const handler = (name: keyof VariableHelper) => {
-  const helper = new VariableHelper();
-  const text = helper[name]?.();
-  helper.replaceText(text);
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return;
+  }
+  const { selections } = editor;
+  editor.edit((editBuilder) => {
+    selections.forEach((selection) => {
+      const text = editor.document.getText(selection);
+      const helper = new VariableHelper(text);
+      const replaceText = helper[name]?.();
+      if (isString(replaceText)){
+        editBuilder.replace(selection, replaceText);
+      }
+    });
+  });
 };
 
 export function activate(context: vscode.ExtensionContext) {

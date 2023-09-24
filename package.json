@@ -1,12 +1,12 @@
 {
   "name": "variable-helper",
   "displayName": "Variable Helper",
-  "publisher": "ayuan",
+  "description": "%description%",
   "icon": "images/icon.png",
-  "description": "",
+  "publisher": "ayuan",
   "version": "0.0.9",
   "engines": {
-    "vscode": "^1.82.0"
+    "vscode": "^1.70.0"
   },
   "categories": [
     "Other"
@@ -19,7 +19,7 @@
   "main": "./out/extension.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/qiuzongyuan/repository.git"
+    "url": "https://github.com/qiuzongyuan/variable-helper"
   },
   "license": "MIT",
   "contributes": {
@@ -57,25 +57,25 @@
         "title": "lower case"
       },
       {
-        "command": "UpperCase",
+        "command": "upperCase",
         "title": "UPPER CASE"
       }
     ],
     "submenus": [
       {
-        "id": "variableHelper",
-        "label": "Variable Helper"
+        "id": "formatVariable",
+        "label": "%formatVariable%"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "submenu": "variableHelper",
+          "submenu": "formatVariable",
           "group": "1_modification",
           "when": "editorHasSelection"
         }
       ],
-      "variableHelper": [
+      "formatVariable": [
         {
           "command": "camelCase",
           "group": "1_modification@1"

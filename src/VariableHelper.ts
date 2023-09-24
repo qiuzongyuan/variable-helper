@@ -1,31 +1,25 @@
 import * as vscode from "vscode";
 
 export default class VariableHelper {
-  constructor() {
-    this.extractWords();
+  constructor(text: string) {
+    this.extractWords(text);
   }
+  
   private text:string = '';
 
   private words: string[] = [];
 
-  extractWords() {
+  private extractWords(text:string) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-      return [];
+      return;
     }
-    const { selection } = editor;
-    const text = editor.document.getText(selection); //选择文本
     this.text = text;
     const separator = " ";
     let convertText = text;
-    const symbolReg = /[\-_\s]+(.)?/g;
-    if (symbolReg.test(convertText)) {
-      convertText = convertText.replace(symbolReg, separator + "$1");
-    }
-    const charReg = /[a-z][A-Z]/g;
-    if (charReg.test(convertText)) {
-      convertText = convertText.replace(charReg, (match) => match[0] + separator + match[1]);
-    }
+    convertText = convertText.replace(/[\-_\s]+(.)?/g,  `${separator}$1`);
+    convertText = convertText.replace(/[a-z][A-Z]/g, match => `${match[1]}${separator}${match[0]}`);
+    convertText = convertText.replace(/[A-Z][a-z]/g, match => `${separator}${match}`);
     convertText = convertText.toLocaleLowerCase();
     this.words = convertText.split(separator).filter((word) => word !== "");
   }
@@ -44,38 +38,6 @@ export default class VariableHelper {
     } else {
       return false;
     }
-  }
-
-  replaceText(text?: unknown) {
-    if (typeof text !== "string") {return;}
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      return;
-    }
-    const { selection, edit,document } = editor;
-    const fullRange = new vscode.Range(
-      document.positionAt(0),
-      document.positionAt(document.getText().length)
-    );
-    const fileContent = document.getText(fullRange);
-    const updatedContent = fileContent.replace(this.text, text);
-    edit((builder) => {
-      builder.replace(selection, text); //替换选中文本
-      // builder.replace(fullRange, text);
-    });
-    // const selectedText = document.getText(selection);
-    // console.log('text', text);
-    // const fileContent = document.getText();
-    // const replacedText = fileContent.replace(new RegExp(this.text, 'g'), text);
-    // const fullRange = new vscode.Range(
-    //   document.positionAt(0),
-    //   document.positionAt(document.getText().length)
-    // );
-    
-    edit((builder) => {
-      // builder.replace(fullRange, replacedText); //替换选中文本
-      builder.replace(selection, text); //替换选中文本
-    });
   }
 
   // camelCase
