@@ -46,7 +46,6 @@ const handler = async (name: keyof VariableHelper) => {
         }
         codeSet.add(code);
       }
-      console.log(replaceTextMap);
     });
   }
   
