@@ -46,10 +46,6 @@ const handler = async (name: keyof VariableHelper) => {
       }
     });
   }
-
-  console.log(replaceTextMap);
-  
-
   editor.edit((editBuilder) => {
     for (const replaceText in replaceTextMap) {
       if (hasOwn(replaceTextMap, replaceText)) {
