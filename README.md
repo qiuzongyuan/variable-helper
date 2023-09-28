@@ -1,3 +1,7 @@
 ## Variable Helper
 
-![demo](images/demo.gif)
+![](images/demo.gif)
+
+![](images/demo2.gif)
+
+![](images/demo3.gif)
