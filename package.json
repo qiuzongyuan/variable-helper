@@ -9,11 +9,13 @@
     "vscode": "^1.70.0"
   },
   "categories": [
-    "Other"
+    "Formatters"
   ],
   "keywords": [
     "vscode",
-    "plugin"
+    "plugin",
+    "format",
+    "格式化"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",

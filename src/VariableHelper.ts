@@ -53,7 +53,6 @@ export default class VariableHelper {
 
   // snake_case
   snakeCase() {
-    console.log('this.words', this.words);
     return this.words.join("_");
   }
 
