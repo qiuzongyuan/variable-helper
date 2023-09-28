@@ -25,10 +25,11 @@ const handler = async (name: keyof VariableHelper) => {
   for (const selection of selections) {
     const { active } = selection;
     const locations = await vscode.commands.executeCommand<vscode.Location[]>('vscode.executeReferenceProvider', uri, active);
-      const text = editor.document.getText(selection);
-      const helper = new VariableHelper(text);
-      const replaceText = helper[name]?.();
-      locations.forEach((location) => {
+    const text = editor.document.getText(selection);
+    const helper = new VariableHelper(text);
+    const replaceText = helper[name]?.();
+    console.log('locations', locations);
+    locations.forEach((location) => {
       const {
         uri: { path },
         range: {
@@ -36,6 +37,7 @@ const handler = async (name: keyof VariableHelper) => {
           end: { line: endLine, character: endCharacter },
         },
       } = location;
+      console.log('path', path);
       const code = `${path}${startLine}${startCharacter}${endLine}${endCharacter}`;
       if (!codeSet.has(code) && isNotEmptyString(replaceText)) {
         const range = new vscode.Range(startLine, startCharacter, endLine, endCharacter);
@@ -46,6 +48,7 @@ const handler = async (name: keyof VariableHelper) => {
         }
         codeSet.add(code);
       }
+      console.log(replaceTextMap);
     });
   }
   
