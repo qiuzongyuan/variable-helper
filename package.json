@@ -1,10 +1,10 @@
 {
   "name": "variable-helper",
   "displayName": "Variable Helper",
-  "description": "%description%",
+  "description": "Quickly format variable",
   "icon": "images/icon.png",
   "publisher": "ayuan",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.70.0"
   },
