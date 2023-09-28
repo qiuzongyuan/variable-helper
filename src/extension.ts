@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import VariableHelper, { VariableHelperKey } from "./VariableHelper";
-import { isNotEmptyString, isArray, hasOwn } from "./util";
+import { isNotEmptyString, isArray, hasOwn, isString } from "./util";
 
 const commands: VariableHelperKey[] = [
   "camelCase",
@@ -20,7 +20,7 @@ const handler = async (name: keyof VariableHelper) => {
     return;
   }
   const codeSet = new Set();
-  const replaceTextMap: { [key:string]: vscode.Range [] } = {};
+  const replaceTextMap: { [path:string]:{ [text:string]: vscode.Range [] } } = {};
   const { selections, document: { uri } } = editor;
   for (const selection of selections) {
     const { active } = selection;
@@ -30,32 +30,48 @@ const handler = async (name: keyof VariableHelper) => {
       const replaceText = helper[name]?.();
       locations.forEach((location) => {
       const {
+        uri: { path },
         range: {
           start: { line: startLine, character: startCharacter },
           end: { line: endLine, character: endCharacter },
         },
       } = location;
-      const code = `${startLine}${startCharacter}${endLine}${endCharacter}`;
+      const code = `${path}${startLine}${startCharacter}${endLine}${endCharacter}`;
       if (!codeSet.has(code) && isNotEmptyString(replaceText)) {
-        if (isArray(replaceTextMap[replaceText])) {
-          replaceTextMap[replaceText].push(new vscode.Range(startLine, startCharacter, endLine, endCharacter));
+        const range = new vscode.Range(startLine, startCharacter, endLine, endCharacter);
+        if (replaceTextMap[path] && isArray(replaceTextMap[path][replaceText])) {
+          replaceTextMap[path][replaceText].push(range);
         } else {
-          replaceTextMap[replaceText] = [new vscode.Range(startLine, startCharacter, endLine, endCharacter)];
+          replaceTextMap[path] = { [replaceText]: [range] };
         }
         codeSet.add(code);
       }
     });
   }
-  editor.edit((editBuilder) => {
-    for (const replaceText in replaceTextMap) {
-      if (hasOwn(replaceTextMap, replaceText)) {
-        const ranges = replaceTextMap[replaceText];
+  
+  for (const path in replaceTextMap) {
+    if (!hasOwn(replaceTextMap, path)) {
+      continue;
+    }
+    const uri = vscode.Uri.file(path);
+    const document = await vscode.workspace.openTextDocument(uri);
+    const editor = await vscode.window.showTextDocument(document);
+    if (!editor) {
+      continue;
+    }
+    editor.edit((editBuilder) => {
+      const rangesMap = replaceTextMap[path];
+      for (const replaceText in rangesMap) {
+        if (!hasOwn(rangesMap, replaceText)) {
+          continue;
+        }
+        const ranges = rangesMap[replaceText];
         ranges.forEach((range) => {
           editBuilder.replace(range, replaceText);
         });
       }
-    }
-  });
+    });
+  }
 };
 
 export function activate(context: vscode.ExtensionContext) {
