@@ -48,18 +48,21 @@ const handler = async (name: keyof VariableHelper) => {
       }
     });
   }
-  
+  const curUri = editor.document.uri;
+  let curEditor = editor;
   for (const path in replaceTextMap) {
     if (!hasOwn(replaceTextMap, path)) {
       continue;
     }
     const uri = vscode.Uri.file(path);
-    const document = await vscode.workspace.openTextDocument(uri);
-    const editor = await vscode.window.showTextDocument(document);
-    if (!editor) {
+    if (curUri.toString() !== uri.toString()) {
+      const document = await vscode.workspace.openTextDocument(uri);
+      curEditor = await vscode.window.showTextDocument(document);
+    }
+    if (!curEditor) {
       continue;
     }
-    editor.edit((editBuilder) => {
+    curEditor.edit((editBuilder) => {
       const rangesMap = replaceTextMap[path];
       for (const replaceText in rangesMap) {
         if (!hasOwn(rangesMap, replaceText)) {
