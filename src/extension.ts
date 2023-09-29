@@ -1,5 +1,5 @@
 import { window, commands, Range, Location, ExtensionContext, workspace, Uri } from "vscode";
-import VariableHelper, { VariableHelperKey } from "./VariableHelper";
+import VariableHelper, { VariableHelperKey } from "./variableHelper";
 import { isNotEmptyString, isArray, hasOwn } from "./util";
 
 const commandList: VariableHelperKey[] = [
