@@ -1,8 +1,8 @@
-import * as vscode from "vscode";
+import { window, commands, Range, Location, ExtensionContext, workspace, Uri } from "vscode";
 import VariableHelper, { VariableHelperKey } from "./VariableHelper";
-import { isNotEmptyString, isArray, hasOwn, isString } from "./util";
+import { isNotEmptyString, isArray, hasOwn } from "./util";
 
-const commands: VariableHelperKey[] = [
+const commandList: VariableHelperKey[] = [
   "camelCase",
   "snakeCase",
   "kebabCase",
@@ -15,16 +15,16 @@ const commands: VariableHelperKey[] = [
 ];
 
 const handler = async (name: keyof VariableHelper) => {
-  const editor = vscode.window.activeTextEditor;
+  const editor = window.activeTextEditor;
   if (!editor) {
     return;
   }
   const codeSet = new Set();
-  const replaceTextMap: { [path:string]:{ [text:string]: vscode.Range [] } } = {};
+  const replaceTextMap: { [path:string]:{ [text:string]: Range [] } } = {};
   const { selections, document: { uri } } = editor;
   for (const selection of selections) {
     const { active } = selection;
-    const locations = await vscode.commands.executeCommand<vscode.Location[]>('vscode.executeReferenceProvider', uri, active);
+    const locations = await commands.executeCommand<Location[]>('vscode.executeReferenceProvider', uri, active);
     const text = editor.document.getText(selection);
     const helper = new VariableHelper(text);
     const replaceText = helper[name]?.();
@@ -38,7 +38,7 @@ const handler = async (name: keyof VariableHelper) => {
       } = location;
       const code = `${path}${startLine}${startCharacter}${endLine}${endCharacter}`;
       if (!codeSet.has(code) && isNotEmptyString(replaceText)) {
-        const range = new vscode.Range(startLine, startCharacter, endLine, endCharacter);
+        const range = new Range(startLine, startCharacter, endLine, endCharacter);
         if (replaceTextMap[path] && isArray(replaceTextMap[path][replaceText])) {
           replaceTextMap[path][replaceText].push(range);
         } else {
@@ -54,10 +54,10 @@ const handler = async (name: keyof VariableHelper) => {
     if (!hasOwn(replaceTextMap, path)) {
       continue;
     }
-    const uri = vscode.Uri.file(path);
+    const uri = Uri.file(path);
     if (curUri.toString() !== uri.toString()) {
-      const document = await vscode.workspace.openTextDocument(uri);
-      curEditor = await vscode.window.showTextDocument(document);
+      const document = await workspace.openTextDocument(uri);
+      curEditor = await window.showTextDocument(document);
     }
     if (!curEditor) {
       continue;
@@ -77,9 +77,9 @@ const handler = async (name: keyof VariableHelper) => {
   }
 };
 
-export function activate(context: vscode.ExtensionContext) {
-  commands.forEach((command) => {
-    const disposable = vscode.commands.registerCommand(command, () =>
+export function activate(context: ExtensionContext) {
+  commandList.forEach((command) => {
+    const disposable = commands.registerCommand(command, () =>
       handler(command)
     );
     context.subscriptions.push(disposable);
