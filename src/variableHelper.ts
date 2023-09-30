@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
 export default class VariableHelper {
   constructor(text: string) {
@@ -15,13 +15,13 @@ export default class VariableHelper {
       return;
     }
     this.text = text;
-    const separator = " ";
+    const separator = ' ';
     let convertText = text;
     convertText = convertText.replace(/[\-_\s]+(.)?/g,  `${separator}$1`);
     convertText = convertText.replace(/[a-z][A-Z]/g, match => `${match[0]}${separator}${match[1]}`);
     convertText = convertText.replace(/[A-Z][a-z]/g, match => `${separator}${match}`);
     convertText = convertText.toLocaleLowerCase();
-    this.words = convertText.split(separator).filter((word) => word !== "");
+    this.words = convertText.split(separator).filter((word) => word !== '');
   }
 
   checkText () {
@@ -48,17 +48,17 @@ export default class VariableHelper {
       }
       return word;
     });
-    return words.join("");
+    return words.join('');
   }
 
   // snake_case
   snakeCase() {
-    return this.words.join("_");
+    return this.words.join('_');
   }
 
   // kebab-case
   kebabCase() {
-    return this.words.join("-");
+    return this.words.join('-');
   }
 
   toPascalCase() {
@@ -70,7 +70,7 @@ export default class VariableHelper {
 
   // PascalCase
   pascalCase() {
-    return this.toPascalCase().join("");
+    return this.toPascalCase().join('');
   }
 
   toUpperCase() {
@@ -79,27 +79,27 @@ export default class VariableHelper {
 
   // SCREAMING_SNAKE_CASE
   screamingSnakeCase() {
-    return this.toUpperCase().join("_");
+    return this.toUpperCase().join('_');
   }
 
   // Capitalized_Snake_Case
   capitalizedSnakeCase() {
-    return this.toPascalCase().join("_");
+    return this.toPascalCase().join('_');
   }
 
   // Sentence Case
   sentenceCase () {
-    return this.toPascalCase().join(" ");
+    return this.toPascalCase().join(' ');
   }
 
   // lower case
   lowerCase() {
-    return this.words.join(" ");
+    return this.words.join(' ');
   }
 
   // UPPER CASE
   upperCase() {
-    return this.toUpperCase().join(" ");
+    return this.toUpperCase().join(' ');
   }
 }
 

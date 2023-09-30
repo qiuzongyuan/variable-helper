@@ -12,16 +12,16 @@ export function run(): Promise<void> {
 	const testsRoot = path.resolve(__dirname, '..');
 
 	return new Promise((c, e) => {
-		const testFiles = new glob.Glob("**/**.test.js", { cwd: testsRoot });
+		const testFiles = new glob.Glob('**/**.test.js', { cwd: testsRoot });
 		const testFileStream = testFiles.stream();
 
-		testFileStream.on("data", (file) => {
+		testFileStream.on('data', (file) => {
 			mocha.addFile(path.resolve(testsRoot, file));
 		});
-		testFileStream.on("error", (err) => {
+		testFileStream.on('error', (err) => {
 			e(err);
 		});
-		testFileStream.on("end", () => {
+		testFileStream.on('end', () => {
 			try {
 				// Run the mocha test
 				mocha.run(failures => {

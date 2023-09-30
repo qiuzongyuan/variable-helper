@@ -11,7 +11,8 @@
     "@typescript-eslint/semi": "warn",
     "curly": "warn",
     "eqeqeq": "warn",
-    "no-throw-literal": "warn"
+    "no-throw-literal": "warn",
+    "quotes": [2, "single"]
   },
   "ignorePatterns": ["out", "dist", "**/*.d.ts"]
 }
