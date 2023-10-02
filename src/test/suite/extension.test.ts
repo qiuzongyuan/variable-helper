@@ -1,15 +1,19 @@
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
-
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
-
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+import * as myExtension from '../../extension';
+import VariableHelper from '../../variableHelper';
+suite('Extension Test', () => {
+	test('VariableHelper Test', () => {
+		const text = 'helloWord';
+		const variableHelper = new VariableHelper(text);
+		assert.strictEqual(variableHelper.camelCase(), 'helloWord');
+		assert.strictEqual(variableHelper.pascalCase(), 'HelloWord');
+		assert.strictEqual(variableHelper.kebabCase(), 'hello-word');
+		assert.strictEqual(variableHelper.snakeCase(), 'hello_word');
+		assert.strictEqual(variableHelper.screamingSnakeCase(), 'HELLO_WORD');
+		assert.strictEqual(variableHelper.capitalizedSnakeCase(), 'Hello_Word');
+		assert.strictEqual(variableHelper.sentenceCase(), 'Hello Word');
+		assert.strictEqual(variableHelper.lowerCase(), 'hello word');
+		assert.strictEqual(variableHelper.upperCase(), 'HELLO WORD');
 	});
 });

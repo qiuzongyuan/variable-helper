@@ -1,8 +1,6 @@
-import * as vscode from 'vscode';
-
 export default class VariableHelper {
   constructor(text: string) {
-    this.extractWords(text);
+    this.extractWords(text);    
   }
   
   private text:string = '';
@@ -10,10 +8,6 @@ export default class VariableHelper {
   private words: string[] = [];
 
   private extractWords(text:string) {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      return;
-    }
     this.text = text;
     const separator = ' ';
     let convertText = text;
@@ -22,22 +16,6 @@ export default class VariableHelper {
     convertText = convertText.replace(/[A-Z][a-z]/g, match => `${separator}${match}`);
     convertText = convertText.toLocaleLowerCase();
     this.words = convertText.split(separator).filter((word) => word !== '');
-  }
-
-  checkText () {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      return;
-    }
-    const { document } = editor;
-    const regex = new RegExp(this.text, 'g');
-    const fileContent = document.getText();
-    const matches = fileContent.match(regex);
-    if (matches && matches.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   // camelCase
