@@ -1,6 +1,16 @@
-import { window, commands, Range, Location, ExtensionContext, workspace, Uri } from 'vscode';
+import {
+  window,
+  commands,
+  Range,
+  Location,
+  ExtensionContext,
+  workspace,
+  Uri,
+  Selection,
+  TextEditor,
+} from 'vscode';
 import VariableHelper, { VariableHelperKey } from './variableHelper';
-import { isNotEmptyString, isArray, hasOwn } from './util';
+import { isEmptyArray, isArray, hasOwn, isString, isEmptyString } from './util';
 
 const commandList: VariableHelperKey[] = [
   'camelCase',
@@ -20,36 +30,74 @@ const handler = async (name: keyof VariableHelper) => {
     return;
   }
   const codeSet = new Set();
-  const replaceTextMap: { [path:string]:{ [text:string]: Range [] } } = {};
-  const { selections, document: { uri } } = editor;
+  const replaceTextMap: {
+    [path: string]: { [text: string]: (Range | Selection)[] };
+  } = {};
+  const { selections, document } = editor;
+  const { uri } = document;
   for (const selection of selections) {
     const { active } = selection;
-    const locations = await commands.executeCommand<Location[]>('vscode.executeReferenceProvider', uri, active);
     const text = editor.document.getText(selection);
     const helper = new VariableHelper(text);
     const replaceText = helper[name]?.();
-    locations.forEach((location) => {
-      const {
-        uri: { path },
-        range: {
-          start: { line: startLine, character: startCharacter },
-          end: { line: endLine, character: endCharacter },
-        },
-      } = location;
-      const code = `${path}${startLine}${startCharacter}${endLine}${endCharacter}`;
-      if (!codeSet.has(code) && isNotEmptyString(replaceText)) {
-        const range = new Range(startLine, startCharacter, endLine, endCharacter);
-        if (replaceTextMap[path] && isArray(replaceTextMap[path][replaceText])) {
-          replaceTextMap[path][replaceText].push(range);
-        } else {
-          replaceTextMap[path] = { [replaceText]: [range] };
-        }
-        codeSet.add(code);
+    if (!isString(replaceText) || isEmptyString(replaceText)) {
+      continue;
+    }
+    const definitions = await commands.executeCommand(
+      'vscode.executeDefinitionProvider',
+      uri,
+      active
+    );
+    if (isEmptyArray(definitions)) {
+      const { path } = uri;
+      if (replaceTextMap[path] && isArray(replaceTextMap[path][replaceText])) {
+        replaceTextMap[path][replaceText].push(selection);
+      } else {
+        replaceTextMap[path] = {
+          ...replaceTextMap[path],
+          [replaceText]: [selection],
+        };
       }
-    });
+    } else {
+      const locations = await commands.executeCommand<Location[]>(
+        'vscode.executeReferenceProvider',
+        uri,
+        active
+      );
+      locations.forEach((location) => {
+        const {
+          uri: { path },
+          range: {
+            start: { line: startLine, character: startCharacter },
+            end: { line: endLine, character: endCharacter },
+          },
+        } = location;
+        const code = `${path}${startLine}${startCharacter}${endLine}${endCharacter}`;
+        if (!codeSet.has(code)) {
+          const range = new Range(
+            startLine,
+            startCharacter,
+            endLine,
+            endCharacter
+          );
+          if (
+            replaceTextMap[path] &&
+            isArray(replaceTextMap[path][replaceText])
+          ) {
+            replaceTextMap[path][replaceText].push(range);
+          } else {
+            replaceTextMap[path] = {
+              ...replaceTextMap[path],
+              [replaceText]: [range],
+            };
+          }
+          codeSet.add(code);
+        }
+      });
+    }
   }
-  const curUri = editor.document.uri;
-  let curEditor = editor;
+  const curUri = uri;
+  let curEditor: TextEditor = editor;
   for (const path in replaceTextMap) {
     if (!hasOwn(replaceTextMap, path)) {
       continue;
