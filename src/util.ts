@@ -1,6 +1,6 @@
 export const isString = (v:unknown): v is string => typeof v === 'string';
 
-export const isEmptyString = (v:unknown): v is string => isString(v) && v !== '';
+export const isEmptyString = (v:unknown): v is string => isString(v) && v === '';
 
 export const isArray = Array.isArray;
 
