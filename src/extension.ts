@@ -43,12 +43,19 @@ const handler = async (name: keyof VariableHelper) => {
     if (!isString(replaceText) || isEmptyString(replaceText)) {
       continue;
     }
-    const definitions = await commands.executeCommand(
-      'vscode.executeDefinitionProvider',
-      uri,
-      active
-    );
-    if (isEmptyArray(definitions)) {
+    const [definitions, typeDefinitions] = await Promise.all([
+      commands.executeCommand(
+        'vscode.executeDefinitionProvider',
+        uri,
+        active
+      ),
+      commands.executeCommand(
+        'vscode.executeTypeDefinitionProvider',
+        uri,
+        active
+      )
+    ]);
+    if (isEmptyArray(definitions) && isEmptyArray(typeDefinitions)) {
       const { path } = uri;
       if (replaceTextMap[path] && isArray(replaceTextMap[path][replaceText])) {
         replaceTextMap[path][replaceText].push(selection);
