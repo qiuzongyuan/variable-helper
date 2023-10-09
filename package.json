@@ -4,7 +4,7 @@
   "description": "Quickly format variable",
   "icon": "images/icon.png",
   "publisher": "ayuan",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "engines": {
     "vscode": "^1.70.0"
   },
