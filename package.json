@@ -1,8 +1,8 @@
 {
   "name": "variable-helper",
   "displayName": "Variable Helper",
-  "description": "Quickly format variable",
-  "icon": "images/icon.png",
+  "description": "快速格式化变量命名",
+  "icon": "assets/icon.png",
   "publisher": "ayuan",
   "version": "0.1.7",
   "engines": {
@@ -15,7 +15,9 @@
     "vscode",
     "plugin",
     "format",
-    "格式化"
+    "格式化",
+    "转换",
+    "variable"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
