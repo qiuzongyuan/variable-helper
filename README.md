@@ -14,3 +14,6 @@
 使用VSCode多选快捷键（mac options、window alt），一键转化
 
 ![](images/demo3.gif)
+
+### 支持选区转换
+![](images/demo4.gif)
