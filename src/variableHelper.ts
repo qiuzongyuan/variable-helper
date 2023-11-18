@@ -9,9 +9,9 @@ export default class VariableHelper {
 
   private extractWords(text:string) {
     this.text = text;
-    const separator = ' ';
+    const separator = '_';
     let convertText = text;
-    convertText = convertText.replace(/[\-_\s]+(.)?/g,  `${separator}$1`);
+    convertText = convertText.replace(/[\-_]+(.)?/g,  `${separator}$1`);
     convertText = convertText.replace(/[a-z][A-Z]/g, match => `${match[0]}${separator}${match[1]}`);
     convertText = convertText.replace(/[A-Z][a-z]/g, match => `${separator}${match}`);
     convertText = convertText.toLocaleLowerCase();
