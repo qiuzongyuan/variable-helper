@@ -16,4 +16,5 @@
 ![](images/demo3.gif)
 
 ### 支持选区转换
+选择中区域直接一键转换
 ![](images/demo4.gif)
