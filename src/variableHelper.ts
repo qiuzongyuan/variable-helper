@@ -11,15 +11,15 @@ export default class VariableHelper {
     this.text = text;
     const separator = '_';
     let convertText = text;
-    convertText = convertText.replace(/[\-_]+(.)?/g,  `${separator}$1`);
-    convertText = convertText.replace(/[a-z][A-Z]/g, match => `${match[0]}${separator}${match[1]}`);
-    convertText = convertText.replace(/[A-Z][a-z]/g, match => `${separator}${match}`);
+    convertText = convertText.replace(/(?<=[A-Za-z])[\-_\x20]+(?=[A-Za-z])/g,  separator);
+    convertText = convertText.replace(/(?<=[a-z])[A-Z]/g, match => `${separator}${match}`);
     convertText = convertText.toLocaleLowerCase();
     this.words = convertText.split(separator).filter((word) => word !== '');
   }
 
   // camelCase
   camelCase() {
+    console.log(this.words);
     const words = this.words.map((word, index) => {
       if (index > 0) {
         return word.replace(/^[a-z]/, (match) => match.toLocaleUpperCase());
@@ -41,7 +41,7 @@ export default class VariableHelper {
 
   toPascalCase() {
     const words = this.words.map((word) =>
-      word.replace(/^[a-z]/, (match) => match.toLocaleUpperCase())
+      word.replace(/\b[a-z]/g, (match) => match.toLocaleUpperCase())
     );
     return words;
   }

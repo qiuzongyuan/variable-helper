@@ -4,7 +4,7 @@
   "description": "快速格式化变量命名",
   "icon": "assets/icon.png",
   "publisher": "ayuan",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "engines": {
     "vscode": "^1.70.0"
   },
