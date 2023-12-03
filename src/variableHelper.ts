@@ -19,7 +19,6 @@ export default class VariableHelper {
 
   // camelCase
   camelCase() {
-    console.log(this.words);
     const words = this.words.map((word, index) => {
       if (index > 0) {
         return word.replace(/^[a-z]/, (match) => match.toLocaleUpperCase());
